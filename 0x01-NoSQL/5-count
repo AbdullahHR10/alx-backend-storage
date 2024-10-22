@@ -1,2 +1,2 @@
 // MongoDB script that displays the number of documents in the collection school
-db.getCollectionNames().length
+db.school.count()
