@@ -2,19 +2,18 @@
 """ Module that contains Cache class. """
 import redis
 from uuid import uuid4
-from typing import Union, Callable, Optional
-import functools
+from typing import Any, Union, Callable, Optional
+from functools import wraps
 
 
 def count_calls(method: Callable) -> Callable:
-    """Decorator to count how many times a method is called."""
-    @functools.wraps(method)
-    def wrapper(self, *args, **kwargs):
-        """ Wrapper function that increments the call count in Redis. """
-        key = f"{method.__qualname__}:calls"
-        self._redis.incr(key)
+    """ Decorator for Cache class methods to track call count. """
+    @wraps(method)
+    def wrapper(self: Any, *args, **kwargs) -> str:
+        """ Wraps called method and adds its call count redis before execution.
+        """
+        self._redis.incr(method.__qualname__)
         return method(self, *args, **kwargs)
-
     return wrapper
 
 class Cache:
