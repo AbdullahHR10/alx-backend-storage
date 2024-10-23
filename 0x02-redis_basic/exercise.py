@@ -16,6 +16,7 @@ def count_calls(method: Callable) -> Callable:
         return method(self, *args, **kwargs)
     return wrapper
 
+
 def call_history(method: Callable) -> Callable:
     """ Decorator for Cache class method to track args
     """
@@ -42,6 +43,7 @@ def replay(fn: Callable) -> None:
     for input, output in zip(inputs, outputs):
         print(f'{fn.__qualname__}(*{input}) -> {output}')
 
+
 class Cache:
     """ Cache class. """
     def __init__(self, host: str = 'localhost', port: int = 6379, db: int = 0):
@@ -55,7 +57,9 @@ class Cache:
         self._redis.set(random_key, data)
         return random_key
 
-    def get(self, key: str, fn: Optional[Callable] = None) -> Union[str, bytes, int, float, None]:
+
+    def get(self, key: str, fn: Optional[Callable] = None) ->Union[
+        str, bytes, int, float, None]:
         """
         Retrieve data from Redis by key and optionally
             apply a callable to convert the data.
